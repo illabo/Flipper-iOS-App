@@ -38,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: coverage
-          path: output
+          path: output/coverage
   
   coverage:
     name: Measure Coverage
@@ -51,4 +51,4 @@ jobs:
       - name: Code coverage report
         run: |
           curl -s https://raw.githubusercontent.com/illabo/xcccr/master/main.go > main.go && go build -o xcccr main.go && rm main.go
-          ./xcccr -lst=input/master-coverage.json -cur=input/${GITHUB_SHA}-coverage.json
+          ./xcccr -lst=input/coverage/master-coverage.json -cur=input/coverage/${GITHUB_SHA}-coverage.json
