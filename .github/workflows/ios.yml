@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
       - name: SwiftLint report
         run: swiftlint lint --reporter github-actions-logging --config "FlipperZero/.swiftlint.yml"
-     
+
   build:
     name: FlipperZero(ios) scheme using iPhone 11 simulator
     runs-on: macos-latest
@@ -39,7 +39,7 @@ jobs:
         with:
           name: ${ARTIFACT_FILE}
           path: output/${ARTIFACT_FILE}
-
+          
   coverage:
     name: Measuring Coverage
     runs-on: macos-latest
