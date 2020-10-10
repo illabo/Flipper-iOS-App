@@ -38,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: coverage
-          path: output/coverage
+          path: output
   
   coverage:
     name: Measure Coverage
