@@ -45,12 +45,12 @@ jobs:
     runs-on: macos-latest
     needs: build
     steps:
-      - uses: actions/download-artifact@v2
-        with:
-          path: input
       - uses: actions/checkout@v2
         with:
           ref: master
+      - uses: actions/download-artifact@v2
+        with:
+          path: input
       - name: Code coverage report
         run: |
           curl -s https://raw.githubusercontent.com/illabo/xcccr/master/main.go > main.go && go build -o xcccr main.go && rm main.go
