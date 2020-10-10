@@ -20,3 +20,7 @@ jobs:
         run: swiftlint lint --reporter github-actions-logging --config "FlipperZero/.swiftlint.yml"
       - name: Xcode test
         run: xcodebuild -sdk iphonesimulator -workspace ./FlipperZero/FlipperZero.xcodeproj/project.xcworkspace -scheme 'FlipperZero(iOS)' test DSTROOT=./output/test/build.dst OBJROOT=./output/test/build.obj SYMROOT=./output/test/build.sym SHARED_PRECOMPS_DIR=./output/test/build.pch -destination platform='iOS Simulator,name=iPhone 11' | xcpretty
+      - name: Code coverage report
+        run: |
+          curl https://raw.githubusercontent.com/illabo/xcccr/master/main.go | go build -o xcccr
+          xcrun xccov view --report --json ./output/DerivedData/Logs/Test/*.xcresult 2>/dev/null | ./xcccr 
