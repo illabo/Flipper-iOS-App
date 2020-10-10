@@ -29,11 +29,10 @@ jobs:
         run: xcodebuild -sdk iphonesimulator -workspace ./FlipperZero/FlipperZero.xcodeproj/project.xcworkspace -scheme 'FlipperZero(iOS)' -derivedDataPath ./output/DerivedData -enableCodeCoverage YES test DSTROOT=./output/test/build.dst OBJROOT=./output/test/build.obj SYMROOT=./output/test/build.sym SHARED_PRECOMPS_DIR=./output/test/build.pch -destination platform='iOS Simulator,name=iPhone 11' | xcpretty
       - name: Export test coverege
         run: |
-          if [ ${GITHUB_REF#refs/heads/} = 'master' ] ; then  
-          echo "::set-env name=ARTIFACT_FILE::master-coverage.json" 
-          else echo "::set-env name=ARTIFACT_FILE::${GITHUB_SHA}-coverage.json"
-          fi
-          xcrun xccov view --report --json ./output/DerivedData/Logs/Test/*.xcresult > output/${ARTIFACT_FILE} 2>/dev/null
+          if [ ${GITHUB_REF#refs/heads/} = 'master' ] ; then
+          xcrun xccov view --report --json ./output/DerivedData/Logs/Test/*.xcresult > output/master-coverage.json 2>/dev/null
+          else xcrun xccov view --report --json ./output/DerivedData/Logs/Test/*.xcresult > output/${GITHUB_SHA}-coverage.json 2>/dev/null
+          fi 
       - name: Upload coverage ARTIFACT_FILE
         uses: actions/upload-artifact@v2
         with:
