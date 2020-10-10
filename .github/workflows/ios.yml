@@ -51,4 +51,4 @@ jobs:
       - name: Code coverage report
         run: |
           curl -s https://raw.githubusercontent.com/illabo/xcccr/master/main.go > main.go && go build -o xcccr main.go && rm main.go
-          ./xcccr -lst=input/main-coverage.json -cur=input/${GITHUB_SHA}-coverage.json
+          ./xcccr -lst=~/input/main-coverage.json -cur=~/input/${GITHUB_SHA}-coverage.json
