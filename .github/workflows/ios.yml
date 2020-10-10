@@ -1,4 +1,4 @@
-name: iOS Build Test
+name: iOS
 
 on:
   push:
@@ -7,10 +7,19 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-    name: Build and Test FlipperZero(ios) scheme using iPhone 11 simulator
-    runs-on: macos-latest
 
+  lint:
+    name: FlipperZero SwiftLint
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: SwiftLint report
+        run: swiftlint lint --reporter github-actions-logging --config "FlipperZero/.swiftlint.yml"
+     
+  build:
+    name: FlipperZero(ios) scheme using iPhone 11 simulator
+    runs-on: macos-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -30,3 +39,16 @@ jobs:
         with:
           name: ${ARTIFACT_FILE}
           path: output/${ARTIFACT_FILE}
+
+  coverage:
+    name: Measuring Coverage
+    runs-on: macos-latest
+    needs: build
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          path: ~/input
+      - name: Code coverage report
+        run: |
+          curl -s https://raw.githubusercontent.com/illabo/xcccr/master/main.go > main.go && go build -o xcccr main.go && rm main.go
+          ./xcccr -lst=main-coverage.json -cur=${GITHUB_SHA}-coverage.json
